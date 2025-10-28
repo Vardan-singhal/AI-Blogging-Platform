@@ -44,7 +44,7 @@ const Signup = ({ darkMode }) => {
       const idToken = await authService.getIdToken(user);
       localStorage.setItem("fb_token", idToken); // Demo storage
 
-      navigate("/dashboard");
+      navigate("/select-role");
     } catch (err) {
       setError(err.message || "Signup failed. Please try again.");
     } finally {
@@ -59,7 +59,7 @@ const Signup = ({ darkMode }) => {
       const user = await authService.loginWithGoogle();
       const idToken = await authService.getIdToken(user);
       localStorage.setItem("fb_token", idToken);
-      navigate("/dashboard");
+      navigate("/select-role");
     } catch (err) {
       alert("Google signup failed. Please try again.");
     } finally {
@@ -74,7 +74,7 @@ const Signup = ({ darkMode }) => {
       const user = await authService.loginWithGithub();
       const idToken = await authService.getIdToken(user);
       localStorage.setItem("fb_token", idToken);
-      navigate("/dashboard");
+      navigate("/select-role");
     } catch (err) {
       alert("GitHub signup failed. Please try again.");
     } finally {
