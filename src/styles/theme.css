@@ -1,0 +1,99 @@
+/* Universal Light/Dark Mode */
+body[data-theme='light'] {
+  background-color: #ffffff;
+  color: #212529;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme='dark'] {
+  background-color: #121212;
+  color: #e4e4e4;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Feature Cards */
+.feature-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.text-primary {
+  color: #007bff !important;
+}
+/* Footer Styling */
+.footer-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #0d6efd; /* Bootstrap primary color */
+}
+
+.footer-icon {
+  color: inherit;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-icon:hover {
+  color: #0d6efd;
+  transform: translateY(-2px);
+}
+/* Theme-aware feature cards */
+body[data-theme='light'] .feature-card {
+  background-color: #ffffff;
+  color: #212529;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme='dark'] .feature-card {
+  background-color: #1e1e1e;
+  color: #e4e4e4;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme='dark'] .feature-card p {
+  color: #bfbfbf;
+}
+/* Login Section */
+.login-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d6efd33, #6c757d33);
+  transition: background-color 0.3s ease;
+}
+
+body[data-theme='dark'] .login-section {
+  background: linear-gradient(135deg, #0d6efd22, #111111);
+}
+
+/* Input and Button Styling */
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-1px);
+}

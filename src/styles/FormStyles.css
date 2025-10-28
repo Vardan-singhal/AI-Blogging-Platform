@@ -1,0 +1,18 @@
+/* Dark mode input field styling */
+.form-dark {
+  background-color: #212529 !important;
+  color: #fff !important;
+  border: 1px solid #6c757d !important;
+}
+
+/* White placeholder for dark mode */
+.form-dark::placeholder {
+  color: #ffffff !important;
+  opacity: 0.8 !important;
+}
+
+/* Improve focus visibility */
+.form-dark:focus {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
