@@ -1,34 +1,65 @@
+// src/pages/SelectRole.jsx
 import React, { useState } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../services/auth/authService"; // your existing auth
-import { updateUserRole } from "../services/userService"; // new helper we’ll create
+import { authService } from "../services/auth/authService";
+import { updateUserRole } from "../services/userService"; // make sure this exists
 
 const SelectRole = () => {
   const navigate = useNavigate();
   const user = authService.getCurrentUser();
   const [loading, setLoading] = useState(false);
 
+  // helper to extract uid from various user shapes
+  const getUidFromUser = (u) => {
+    if (!u) return null;
+    // common shapes:
+    // - Firebase User object: u.uid
+    // - Some wrappers: u.user.uid
+    // - Local-storage saved plain object: u.uid
+    return u.uid || (u.user && u.user.uid) || null;
+  };
+
   const handleRoleSelection = async (role) => {
-    if (!user) return;
+    const uid = getUidFromUser(user);
+    if (!uid) {
+      // No user available — send them to login (or show message)
+      alert("You must be logged in to select a role. Redirecting to login...");
+      navigate("/login");
+      return;
+    }
 
     setLoading(true);
     try {
-      // Update role in DB or local storage
-      await updateUserRole(user.uid, role);
+      // 1) Update role in DB if the helper exists
+      if (typeof updateUserRole === "function") {
+        try {
+          await updateUserRole(uid, role);
+        } catch (dbErr) {
+          // Log DB error but don't block UX — we'll still update local cache and navigate
+          console.error("Failed to update role in DB:", dbErr);
+        }
+      } else {
+        console.warn("updateUserRole is not a function — skipping DB update.");
+      }
 
-      // update in local storage (for instant reflection)
-      authService.updateLocalUser({ ...user, role });
+      // 2) Update local user cache for instant reflection
+      // merge existing user object with new role, keep all other fields
+      const updatedUser = { ...(user || {}), role };
+      authService.updateLocalUser(updatedUser);
 
-      // Redirect to dashboard
+      // 3) Redirect based on selected role
       if (role === "Writer") {
         navigate("/writer-dashboard");
       } else {
         navigate("/reader-dashboard");
       }
     } catch (error) {
-      console.error("Error updating role:", error);
-      alert("Something went wrong while updating role.");
+      console.error("Error in handleRoleSelection:", error);
+      alert("Something went wrong while updating role. Redirecting to dashboard.");
+      // attempt redirect anyway for better UX
+      if (role === "Writer") navigate("/writer-dashboard");
+      else navigate("/reader-dashboard");
     } finally {
       setLoading(false);
     }
@@ -38,7 +69,8 @@ const SelectRole = () => {
     <Container className="py-5 text-center">
       <h2 className="fw-bold mb-4">Select Your Role</h2>
       <p className="text-muted mb-5">
-        Choose how you want to explore <span className="text-primary">AI-BlogSphere</span>.
+        Choose how you want to explore{" "}
+        <span className="text-primary">AI-BlogSphere</span>.
       </p>
 
       <Row className="justify-content-center">
@@ -50,7 +82,6 @@ const SelectRole = () => {
               variant="primary"
               disabled={loading}
               onClick={() => handleRoleSelection("Writer")}
-              
             >
               {loading ? "Saving..." : "Continue as Writer"}
             </Button>

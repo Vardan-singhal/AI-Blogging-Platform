@@ -1,6 +1,0 @@
-after signup instead of redirecting to dashboard page it first redirects to role selection page and then after selecting the role change the role in the database and it shoulkd automatically uptae in the dashboard also.
-Blog Page pr readmore wala option click krke login/signup form redirect ho jaaye.
-writer dashboard or reader dashboard alag alag pages bnenge.
-reader dashboard mein blog pages ke saath like comment bookmark ka option dena hain.
-Writer dashboard mein create blog krke request admin panel mein jaaye. vaha se approve hoke yaha blog page mein update ho jaaye.
-API check krna hain. api fetch or render nhi hora.
